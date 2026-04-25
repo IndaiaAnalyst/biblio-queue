@@ -12,8 +12,10 @@ public class Usuario {
     private int limiteLivros; 
     private List<Emprestimo> listaEmprestimos = new ArrayList<>(); 
 
+// Construtor padrão
     public Usuario() {}
 
+ // Construtor parametrizado
     public Usuario(String id, String nome, String email, TipoUsuario categoria, int limiteLivros) {
         this.id = id;
         this.nome = nome;
