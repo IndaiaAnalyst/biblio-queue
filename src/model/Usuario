@@ -1,0 +1,28 @@
+package model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Usuario {
+    private String nome; [cite: 37]
+    private String id; [cite: 38]
+    private String email; [cite: 39]
+    private String senha; [cite: 40]
+    private CategoriaUsuario categoria; [cite: 41]
+    private int limiteLivros; [cite: 42]
+    private List<Livro> listaEmprestimos = new ArrayList<>(); [cite: 43]
+
+    public void mostrarDados() { [cite: 44] }
+
+    public boolean pegarLivro(Livro livro) { [cite: 47]
+        if (listaEmprestimos.size() < limiteLivros) { [cite: 184]
+            listaEmprestimos.add(livro); [cite: 49]
+            return true;
+        }
+        return false;
+    }
+
+    public boolean devolverLivro(Livro livro) { [cite: 51]
+        return listaEmprestimos.remove(livro); [cite: 52]
+    }
+}
