@@ -46,7 +46,6 @@ public class Usuario {
         System.out.println("ID: " + id + " | Nome: " + nome + " | Categoria: " + categoria);
     }
 
-    // CORREÇÃO: Método necessário para a classe Biblioteca realizar o empréstimo
     public void adicionarEmprestimo(Emprestimo emprestimo) {
         this.listaEmprestimos.add(emprestimo);
     }
