@@ -4,25 +4,56 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Usuario {
-    private String nome; [cite: 37]
-    private String id; [cite: 38]
-    private String email; [cite: 39]
-    private String senha; [cite: 40]
-    private CategoriaUsuario categoria; [cite: 41]
-    private int limiteLivros; [cite: 42]
-    private List<Livro> listaEmprestimos = new ArrayList<>(); [cite: 43]
+    private String id; 
+    private String nome; 
+    private String email; 
+    private String senha; 
+    private TipoUsuario categoria; 
+    private int limiteLivros; 
+    private List<Emprestimo> listaEmprestimos = new ArrayList<>(); 
 
-    public void mostrarDados() { [cite: 44] }
+    public Usuario() {}
 
-    public boolean pegarLivro(Livro livro) { [cite: 47]
-        if (listaEmprestimos.size() < limiteLivros) { [cite: 184]
-            listaEmprestimos.add(livro); [cite: 49]
-            return true;
-        }
-        return false;
+    public Usuario(String id, String nome, String email, TipoUsuario categoria, int limiteLivros) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.categoria = categoria;
+        this.limiteLivros = limiteLivros;
     }
 
-    public boolean devolverLivro(Livro livro) { [cite: 51]
-        return listaEmprestimos.remove(livro); [cite: 52]
+    // Getters
+    public String getId() { return id; }
+    public String getNome() { return nome; }
+    public String getEmail() { return email; }
+    public String getSenha() { return senha; } // Adicionado
+    public TipoUsuario getCategoria() { return categoria; }
+    public int getLimiteLivros() { return limiteLivros; }
+    public List<Emprestimo> getEmprestimos() { return listaEmprestimos; }
+
+    // Setters
+    public void setId(String id) { this.id = id; }
+    public void setNome(String nome) { this.nome = nome; }
+    public void setEmail(String email) { this.email = email; }
+    public void setSenha(String senha) { this.senha = senha; }
+    public void setCategoria(TipoUsuario categoria) { this.categoria = categoria; }
+    public void setLimiteLivros(int limiteLivros) { this.limiteLivros = limiteLivros; }
+
+    public void mostrarDados() {
+        System.out.println("ID: " + id + " | Nome: " + nome + " | Categoria: " + categoria);
+    }
+
+    public boolean pegarLivro(Livro livro) {
+        if (listaEmprestimos.size() < limiteLivros) { 
+            Emprestimo novoEmprestimo = new Emprestimo(); 
+            novoEmprestimo.setLivro(livro);
+            listaEmprestimos.add(novoEmprestimo);
+            return true;
+        }
+        return false; // Retorna false se atingiu o limite
+    }
+
+    public boolean devolverLivro(Livro livro) { 
+        return listaEmprestimos.removeIf(emp -> emp.getLivro().equals(livro));
     }
 }
