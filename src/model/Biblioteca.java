@@ -13,10 +13,10 @@ public class Biblioteca {
 
     public boolean realizarEmprestimo(String idEmprestimo, Usuario usuario, Titulo titulo) {
         
-        int limite = (usuario.getCategoria() == TipoUsuario.Professor) ? 7 : 3;
+        int limite = (usuario.getCategoria() == TipoUsuario.PROFESSOR) ? 7 : 3;
 
         if (usuario.getEmprestimos().size() >= limite) {
-            System.out.println("Erro: Limite de " + limite + " livros atingido.");
+            System.out.println("Erro: Limite de " + limite + " livros atingido para " + usuario.getCategoria());
             return false;
         }
 
@@ -29,9 +29,9 @@ public class Biblioteca {
             
             exemplar.setDisponivel(false);
             titulo.diminuirDisponivel();
-            
+
             emprestimoDao.addEmprestimo(emprestimo);
-            usuario.getEmprestimos().add(emprestimo);
+            usuario.adicionarEmprestimo(emprestimo);
             
             System.out.println("Empréstimo [" + idEmprestimo + "] registrado com sucesso!");
             return true;
