@@ -1,5 +1,51 @@
 package model;
 
-public enum CategoriaUsuario {
-    Professor, Aluno, Bibliotecario [cite: 41]
+import java.time.LocalDateTime;
+
+public class Reserva {
+    private Usuario usuario;
+    private Titulo titulo;
+    private LocalDateTime dataReserva;
+
+    public Reserva() {
+        this.dataReserva = LocalDateTime.now();
+    }
+
+    public Reserva(Usuario usuario, Titulo titulo) {
+        this.usuario = usuario;
+        this.titulo = titulo;
+        this.dataReserva = LocalDateTime.now();
+    }
+
+    // Getters 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public LocalDateTime getDataReserva() {
+        return dataReserva;
+    }
+
+    public Titulo getTitulo() {
+        return titulo;
+    }
+
+    // Setters
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public void setTitulo(Titulo titulo) {
+        this.titulo = titulo;
+    }
+
+    public void setDataReserva(LocalDateTime dataReserva) {
+        this.dataReserva = dataReserva;
+    }
+    
+    public void mostrarDados() {
+        System.out.println("Reserva efetuada em: " + dataReserva);
+        if (usuario != null) System.out.println("Usuário: " + usuario.getNome());
+        if (titulo != null) System.out.println("Título: " + titulo.getNome());
+    }
 }
