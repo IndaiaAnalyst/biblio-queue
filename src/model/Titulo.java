@@ -38,13 +38,13 @@ public class Titulo {
 
     public Livro[] getExemplaresIndisponiveis() {
         return listaDeExemplares.getListLivro().stream()
-                .filter(l -> !l.isEstaDisponivel())
+                .filter(l -> !l.isDisponivel())
                 .toArray(size -> new Livro[size]);
     }
 
     public Livro[] getExemplaresDisponiveis() {
         return listaDeExemplares.getListLivro().stream()
-                .filter(l -> l.isEstaDisponivel())
+                .filter(l -> l.isDisponivel())
                 .toArray(size -> new Livro[size]);
     }
 
