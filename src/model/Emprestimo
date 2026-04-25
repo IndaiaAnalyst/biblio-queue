@@ -1,0 +1,13 @@
+package model;
+
+import java.time.LocalDate;
+
+public class Emprestimo {
+    private String id; [cite: 29]
+    private LocalDate dataEmprestimo; [cite: 26]
+    private LocalDate dataDevolucao; [cite: 28]
+    private Livro livro; [cite: 27]
+    private boolean atrasada; [cite: 30]
+
+    public void mostrarDados() { [cite: 31] }
+}
