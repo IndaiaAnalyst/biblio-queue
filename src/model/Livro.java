@@ -1,41 +1,50 @@
 package model;
 
-import java.time.LocalDate;
-
 public class Livro {
     private String id;
-    private String nome;
-    private String autor;
-    private LocalDate dataPublicacao;
-    private String isbn;
-    private String genero;
-    private String descricao;
-    private boolean estaDisponivel;
+    private boolean disponivel;
+    private Titulo titulo;
 
-    // Getters e Setters
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    // Construtor padrão
+    public Livro() {}
 
-    public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome = nome; }
+    // Construtor parametrizado
+    public Livro(String id, Titulo titulo) {
+        this.id = id;
+        this.titulo = titulo;
+        this.disponivel = true; 
+    }
 
-    public String getAutor() { return autor; }
-    public void setAutor(String autor) { this.autor = autor; }
+    // Getters 
+    public String getId() {
+        return id;
+    }
 
-    public LocalDate getDataPublicacao() { return dataPublicacao; }
-    public void setDataPublicacao(LocalDate dataPublicacao) { this.dataPublicacao = dataPublicacao; }
+    public Titulo getTitulo() {
+        return titulo;
+    }
 
-    public String getIsbn() { return isbn; }
-    public void setIsbn(String isbn) { this.isbn = isbn; }
+    public boolean isDisponivel() {
+        return disponivel;
+    }
 
-    public String getGenero() { return genero; }
-    public void setGenero(String genero) { this.genero = genero; }
+    // Setters
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    public String getDescricao() { return descricao; }
-    public void setDescricao(String descricao) { this.descricao = descricao; }
+    public void setTitulo(Titulo titulo) {
+        this.titulo = titulo;
+    }
 
-    public boolean isEstaDisponivel() { return estaDisponivel; }
-    public void setEstaDisponivel(boolean estaDisponivel) { this.estaDisponivel = estaDisponivel; }
+    public void setDisponivel(boolean disponivel) {
+        this.disponivel = disponivel;
+    }
 
-    public void mostrarDados() { }
+    public void mostrarDados() {
+        String nomeTitulo = (titulo != null) ? titulo.getNome() : "Título não definido";
+        System.out.println("ID Exemplar: " + id + 
+                           " | Título: " + nomeTitulo + 
+                           " | Status: " + (disponivel ? "Disponível" : "Emprestado"));
+    }
 }
