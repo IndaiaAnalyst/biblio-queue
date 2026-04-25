@@ -1,61 +1,59 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
+import repository.LivroDaoLista;
+import repository.TituloDaoLista;
+import repository.EmprestimoDaoLista;
+import repository.ReservaDaoLista;
 
-public class Usuario {
-    private String id; 
-    private String nome; 
-    private String email; 
-    private String senha; 
-    private TipoUsuario categoria; 
-    private int limiteLivros; 
-    private List<Emprestimo> listaEmprestimos = new ArrayList<>(); 
+public class Biblioteca {
+    public LivroDaoLista livroDao = new LivroDaoLista();
+    public TituloDaoLista tituloDao = new TituloDaoLista();
+    public EmprestimoDaoLista emprestimoDao = new EmprestimoDaoLista();
+    public ReservaDaoLista reservaDao = new ReservaDaoLista();
 
-// Construtor padrão
-    public Usuario() {}
+    public boolean realizarEmprestimo(String idEmprestimo, Usuario usuario, Titulo titulo) {
+        
+        int limite = (usuario.getCategoria() == TipoUsuario.PROFESSOR) ? 7 : 3;
 
- // Construtor parametrizado
-    public Usuario(String id, String nome, String email, TipoUsuario categoria, int limiteLivros) {
-        this.id = id;
-        this.nome = nome;
-        this.email = email;
-        this.categoria = categoria;
-        this.limiteLivros = limiteLivros;
-    }
-
-    // Getters
-    public String getId() { return id; }
-    public String getNome() { return nome; }
-    public String getEmail() { return email; }
-    public String getSenha() { return senha; } // Adicionado
-    public TipoUsuario getCategoria() { return categoria; }
-    public int getLimiteLivros() { return limiteLivros; }
-    public List<Emprestimo> getEmprestimos() { return listaEmprestimos; }
-
-    // Setters
-    public void setId(String id) { this.id = id; }
-    public void setNome(String nome) { this.nome = nome; }
-    public void setEmail(String email) { this.email = email; }
-    public void setSenha(String senha) { this.senha = senha; }
-    public void setCategoria(TipoUsuario categoria) { this.categoria = categoria; }
-    public void setLimiteLivros(int limiteLivros) { this.limiteLivros = limiteLivros; }
-
-    public void mostrarDados() {
-        System.out.println("ID: " + id + " | Nome: " + nome + " | Categoria: " + categoria);
-    }
-
-    public boolean pegarLivro(Livro livro) {
-        if (listaEmprestimos.size() < limiteLivros) { 
-            Emprestimo novoEmprestimo = new Emprestimo(); 
-            novoEmprestimo.setLivro(livro);
-            listaEmprestimos.add(novoEmprestimo);
-            return true;
+        if (usuario.getEmprestimos().size() >= limite) {
+            System.out.println("Erro: Limite de " + limite + " livros atingido para " + usuario.getCategoria());
+            return false;
         }
-        return false; // Retorna false se atingiu o limite
+
+        Livro[] disponiveis = titulo.getExemplaresDisponiveis();
+        
+        if (disponiveis.length > 0) {
+            Livro exemplar = disponiveis[0];
+
+            Emprestimo emprestimo = new Emprestimo(idEmprestimo, usuario, exemplar, 7);
+            
+            exemplar.setDisponivel(false);
+            titulo.diminuirDisponivel();
+            
+            emprestimoDao.addEmprestimo(emprestimo);
+            usuario.adicionarEmprestimo(emprestimo);
+            
+            System.out.println("Empréstimo [" + idEmprestimo + "] registrado com sucesso!");
+            return true;
+        } else {
+            System.out.println("Não há exemplares disponíveis para: " + titulo.getNome());
+            return false;
+        }
     }
 
-    public boolean devolverLivro(Livro livro) { 
-        return listaEmprestimos.removeIf(emp -> emp.getLivro().equals(livro));
+    public void adicionarExemplar(String isbn, String idExemplar) {
+        Titulo titulo = tituloDao.buscarPorIsbn(isbn);
+        
+        if (titulo != null) {
+            Livro novoLivro = new Livro(idExemplar, titulo);
+            livroDao.addLivro(novoLivro);
+            
+            titulo.setQuantidade(titulo.getQuantidade() + 1);
+            titulo.aumentarDisponivel();
+            
+            System.out.println("Exemplar " + idExemplar + " adicionado ao título: " + titulo.getNome());
+        } else {
+            System.out.println("Erro: ISBN " + isbn + " não encontrado no sistema.");
+        }
     }
 }
