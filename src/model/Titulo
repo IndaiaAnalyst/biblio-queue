@@ -3,16 +3,43 @@ package model;
 import java.time.LocalDate;
 
 public class Titulo {
-    private String nome; [cite: 15]
-    private String autor; [cite: 16]
-    private LocalDate dataPublicacao; [cite: 17]
-    private String isbn; [cite: 18]
-    private String genero; [cite: 19]
-    private String descricao; [cite: 20]
-    private int quantidade; [cite: 21]
-    private int quantidadeDisponivel; [cite: 22]
-    private int quantidadeDeReservas; [cite: 23]
+    private String nome;
+    private String autor;
+    private LocalDate dataPublicacao;
+    private String isbn;
+    private String genero;
+    private String descricao;
+    private int quantidade;
+    private int quantidadeDisponivel;
+    private int quantidadeDeReservas;
 
-    public void mostrarDados() { [cite: 24]
-    }
+    // Getters e Setters
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
+
+    public String getAutor() { return autor; }
+    public void setAutor(String autor) { this.autor = autor; }
+
+    public LocalDate getDataPublicacao() { return dataPublicacao; }
+    public void setDataPublicacao(LocalDate dataPublicacao) { this.dataPublicacao = dataPublicacao; }
+
+    public String getIsbn() { return isbn; }
+    public void setIsbn(String isbn) { this.isbn = isbn; }
+
+    public String getGenero() { return genero; }
+    public void setGenero(String genero) { this.genero = genero; }
+
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
+
+    public int getQuantidade() { return quantidade; }
+    public void setQuantidade(int quantidade) { this.quantidade = quantidade; }
+
+    public int getQuantidadeDisponivel() { return quantidadeDisponivel; }
+    public void setQuantidadeDisponivel(int quantidadeDisponivel) { this.quantidadeDisponivel = quantidadeDisponivel; }
+
+    public int getQuantidadeDeReservas() { return quantidadeDeReservas; }
+    public void setQuantidadeDeReservas(int quantidadeDeReservas) { this.quantidadeDeReservas = quantidadeDeReservas; }
+
+    public void mostrarDados() { }
 }
