@@ -21,8 +21,10 @@ public class Titulo {
     
     private FilaPrioridadeReserva filaReservas; 
 
+    // Construtor padrão
     public Titulo() {}
 
+    // Construtor parametrizado
     public Titulo(String nome, String autor, String isbn) {
         this.nome = nome;
         this.autor = autor;
