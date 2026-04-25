@@ -1,0 +1,18 @@
+package model;
+
+import java.time.LocalDate;
+
+public class Titulo {
+    private String nome; [cite: 15]
+    private String autor; [cite: 16]
+    private LocalDate dataPublicacao; [cite: 17]
+    private String isbn; [cite: 18]
+    private String genero; [cite: 19]
+    private String descricao; [cite: 20]
+    private int quantidade; [cite: 21]
+    private int quantidadeDisponivel; [cite: 22]
+    private int quantidadeDeReservas; [cite: 23]
+
+    public void mostrarDados() { [cite: 24]
+    }
+}
