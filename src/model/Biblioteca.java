@@ -1,51 +1,59 @@
 package model;
 
-import java.time.LocalDateTime;
+import repository.LivroDaoLista;
+import repository.TituloDaoLista;
+import repository.EmprestimoDaoLista;
+import repository.ReservaDaoLista;
 
-public class Reserva {
-    private Usuario usuario;
-    private Titulo titulo;
-    private LocalDateTime dataReserva;
+public class Biblioteca {
+    public LivroDaoLista livroDao = new LivroDaoLista();
+    public TituloDaoLista tituloDao = new TituloDaoLista();
+    public EmprestimoDaoLista emprestimoDao = new EmprestimoDaoLista();
+    public ReservaDaoLista reservaDao = new ReservaDaoLista();
 
-    public Reserva() {
-        this.dataReserva = LocalDateTime.now();
+    public boolean realizarEmprestimo(String idEmprestimo, Usuario usuario, Titulo titulo) {
+        
+        int limite = (usuario.getCategoria() == TipoUsuario.Professor) ? 7 : 3;
+
+        if (usuario.getEmprestimos().size() >= limite) {
+            System.out.println("Erro: Limite de " + limite + " livros atingido.");
+            return false;
+        }
+
+        Livro[] disponiveis = titulo.getExemplaresDisponiveis();
+        
+        if (disponiveis.length > 0) {
+            Livro exemplar = disponiveis[0];
+            
+            Emprestimo emprestimo = new Emprestimo(idEmprestimo, usuario, exemplar, 7);
+            
+            exemplar.setDisponivel(false);
+            titulo.diminuirDisponivel();
+            
+            emprestimoDao.addEmprestimo(emprestimo);
+            usuario.getEmprestimos().add(emprestimo);
+            
+            System.out.println("Empréstimo [" + idEmprestimo + "] registrado com sucesso!");
+            return true;
+        } else {
+            System.out.println("Não há exemplares disponíveis para: " + titulo.getNome());
+            return false;
+        }
     }
 
-    public Reserva(Usuario usuario, Titulo titulo) {
-        this.usuario = usuario;
-        this.titulo = titulo;
-        this.dataReserva = LocalDateTime.now();
-    }
-
-    // Getters 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public LocalDateTime getDataReserva() {
-        return dataReserva;
-    }
-
-    public Titulo getTitulo() {
-        return titulo;
-    }
-
-    // Setters
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public void setTitulo(Titulo titulo) {
-        this.titulo = titulo;
-    }
-
-    public void setDataReserva(LocalDateTime dataReserva) {
-        this.dataReserva = dataReserva;
-    }
-    
-    public void mostrarDados() {
-        System.out.println("Reserva efetuada em: " + dataReserva);
-        if (usuario != null) System.out.println("Usuário: " + usuario.getNome());
-        if (titulo != null) System.out.println("Título: " + titulo.getNome());
+    public void adicionarExemplar(String isbn, String idExemplar) {
+        Titulo titulo = tituloDao.buscarPorIsbn(isbn);
+        
+        if (titulo != null) {
+            Livro novoLivro = new Livro(idExemplar, titulo);
+            livroDao.addLivro(novoLivro);
+            
+            titulo.setQuantidade(titulo.getQuantidade() + 1);
+            titulo.aumentarDisponivel();
+            
+            System.out.println("Exemplar " + idExemplar + " adicionado ao título: " + titulo.getNome());
+        } else {
+            System.out.println("Erro: ISBN " + isbn + " não encontrado no sistema.");
+        }
     }
 }
